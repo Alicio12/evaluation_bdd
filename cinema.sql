@@ -1,3 +1,5 @@
+CREATE DATABASE CinemasManagement;
+
 CREATE TABLE 'Users' (
     'id' INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     'email' VARCHAR(254) NOT NULL UNIQUE,
@@ -23,23 +25,31 @@ CREATE TABLE 'UserRoles' (
 
 CREATE TABLE 'Cinemas' (
     'id' INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    'name' VARCHAR(100) NOT NULL
+    'name' VARCHAR(100) NOT NULL,
+    'address' VARCHAR(100) NOT NULL,
+    'city' VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE 'Rooms' (
     'id' INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    'number' INT(11) NOT NULL
+    'number' INT(11) NOT NULL,
+    'cinemaId' INT(11) NOT NULL,
+    FOREIGN KEY (cinemaId) REFERENCES Cinemas(id)
 );
 
 CREATE TABLE 'Movies' (
     'id' INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     'name' VARCHAR(100) NOT NULL,
-    'date' SMALLDATETIME(4) NOT NULL
+    'date' SMALLDATETIME(4) NOT NULL,
+    'roomId' INT(11) NOT NULL,
+    FOREIGN KEY (roomId) REFERENCES Rooms(id)
 );
 
 CREATE TABLE 'Places' (
     'id' INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    'number' INT(11) NOT NULL
+    'number' INT(11) NOT NULL,
+    'movieId' INT(11) NOT NULL,
+    FOREIGN KEY (movieId) REFERENCES Movies(id)
 );
 
 CREATE TABLE 'Prices' (
@@ -59,9 +69,7 @@ CREATE TABLE 'Reservations' (
 );
 
 CREATE TABLE 'Cart' (
-    'priceId' INT(11) NOT NULL,
+    'id' INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     'reservationId' INT(11) NOT NULL,
-    PRIMARY KEY (priceId, reservationId),
-    FOREIGN KEY (priceId) REFERENCES Prices(id),
     FOREIGN KEY (reservationId) REFERENCES Reservations(id)
 );
